@@ -24,10 +24,9 @@ function App() {
 
   return (
     <>
+      <Header username={userName}/>
       <Application username={userName}/>
-      {console.log(userName)}
       {userName === null ? <UserNameModal setUserNameFunction={setUserNameFunction}/> : null}
-      
     </>
   );
 }
