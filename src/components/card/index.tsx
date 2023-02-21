@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
-import {CardModal, CommentDataArrayType} from '../../';
+import {CardDataArrayType, CardModal, CommentDataArrayType} from '../../';
 
 
 interface Props{
@@ -8,6 +8,10 @@ interface Props{
     title: string;
     columnId: string;
     commentDataArray: CommentDataArrayType[];
+    cardDescription: string;
+    editCardTitleFunction: (cardId: string, newTitle: string) => void;
+    addCommentFunction: (title: string, CardId: string, author: string) => void;
+    editDescription: (cardId: string, newDescription: string) => void;
 }
 
 function Card(props:Props){
@@ -17,18 +21,28 @@ function Card(props:Props){
     function changeCardModalFlag(flag: boolean){
         setCardModalFlag(flag);
     }
-
-
+    
     return(
         <ExternalWrapper>
-            {cardModalFlag === true ? <CardModal commentDataArray={props.commentDataArray} changeCardModalFlag={changeCardModalFlag} columnId={props.columnId} id={props.id} title={props.title}/> : null}
+            {cardModalFlag === true ? 
+            
+                <CardModal 
+                    editDescription={props.editDescription}
+                    addCommentFunction={props.addCommentFunction} 
+                    cardDescription={props.cardDescription} 
+                    editCardTitleFunction={props.editCardTitleFunction} 
+                    commentDataArray={props.commentDataArray} 
+                    changeCardModalFlag={changeCardModalFlag} 
+                    columnId={props.columnId} 
+                    id={props.id} 
+                    title={props.title}/> 
+                : 
+                null
+            }
             <CardInnerWrapper>
                 <TitleText onClick={()=>{
                     setCardModalFlag(true)
                 }}>{props.title}</TitleText>
-                <EditCardTitleIconImage onClick={()=>{
-                    alert('1');
-                }} src="./images/editIcon.png"/>
             </CardInnerWrapper>
             
         </ExternalWrapper>
@@ -59,12 +73,14 @@ const ExternalWrapper = styled.div`
 `
 const TitleText = styled.p`
     color: black;
-    font-family: Robot;
+    font-family: Roboto;
     font-size: 19px;
     cursor: pointer;
     :hover{
         opacity: 0.5;
     }
+    max-width: 400px;
+    word-wrap: break-word;
 `
 
 export default Card;

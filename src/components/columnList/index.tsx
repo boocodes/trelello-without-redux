@@ -9,6 +9,10 @@ interface Props{
     addCardFunction: (columnId: string, title: string) => void;
     addColumnFunction: (title: string) => void;
     commentDataArray: CommentDataArrayType[];
+    editCardTitleFunction: (cardId: string, newTitle: string) => void;
+    addCommentFunction: (title: string, CardId: string, author: string) => void;
+    editDescription: (cardId: string, newDescription: string) => void;
+    editColumnTitle: (columnId: string, newTitle: string) => void;
 }
 
 function ColumnList(props:Props){
@@ -26,10 +30,23 @@ function ColumnList(props:Props){
         <ExternalWrapper>
             {props.columnDataArray.map((elem:ColumnDataArrayType)=>{
                 return(
-                    <Column commentDataArray={props.commentDataArray} addCardFunction={props.addCardFunction} cardDataArray={props.cardDataArray} title={elem.title} id={elem.id} key={elem.id.toString()}/>
+                    <Column 
+                        editColumnTitle={props.editColumnTitle}
+                        editDescription={props.editDescription} 
+                        addCommentFunction={props.addCommentFunction} 
+                        editCardTitleFunction={props.editCardTitleFunction} 
+                        commentDataArray={props.commentDataArray} 
+                        addCardFunction={props.addCardFunction} 
+                        cardDataArray={props.cardDataArray} 
+                        title={elem.title} 
+                        id={elem.id} 
+                        key={elem.id.toString()}/>
                 )
             })} 
-            <AddColumnWrapper>
+            <AddColumnWrapper onSubmit={(event: any)=>{
+                event.preventDefault();
+                createColumn();
+            }} >
                 <AddColumnInput ref={columnTitleInputRef} placeholder="column title"/>
                 <AddColumnButton onClick={createColumn}>Add column</AddColumnButton>
             </AddColumnWrapper>
@@ -41,10 +58,10 @@ const ExternalWrapper = styled.div`
     flex-wrap: wrap;
     display: flex;
     margin: 20px 0px 0px 30px;
-    
+   
 `
 
-const AddColumnWrapper = styled.div`
+const AddColumnWrapper = styled.form`
     height: 150px;
     padding: 15px 30px;
     display: flex;

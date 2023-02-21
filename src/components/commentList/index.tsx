@@ -12,15 +12,13 @@ function CommentList(props:Props){
     return(
         <>
             <ExternalWrapper>
+                
                 {props.commentDataArray.map((elem:CommentDataArrayType)=>{
-                    
                         if(elem.cardId === props.cardId){
                             return(
-                                <Comment cardId={props.cardId} commentDataObject={elem}/>
+                                <Comment key={Math.random().toString()} cardId={props.cardId} commentDataObject={elem}/>
                             )
                         }
-                       
-                    
                 })}
             </ExternalWrapper>
         
@@ -31,7 +29,11 @@ function CommentList(props:Props){
 const ExternalWrapper = styled.div`
     background-color: #f2f4f7;
     padding: 15px 30px;
-    width: 300px;
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    
 `
 
 

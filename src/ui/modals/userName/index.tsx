@@ -32,12 +32,24 @@ function UserNameModal(props:Props){
             <ExternalWrapper>
                 <Text>Enter your name</Text>
                 <UserNameInput placeholder="name" ref={userInputRef}/>
-                <button onClick={enterUserNameFunction}>Sub</button>
+                <SubmitButton onClick={enterUserNameFunction}>Submit</SubmitButton>
             </ExternalWrapper>
             
         </>
     )
 }
+
+const SubmitButton = styled.button`
+    cursor: pointer;
+    :hover{
+        opacity: 0.5;
+        transition: 0.5s;
+    }
+    font-size: 20px;
+    border: none;
+    border-radius: 5px;
+    padding: 15px 20px;
+`
 
 const Overlay = styled.div`
     position: absolute;
@@ -52,13 +64,15 @@ const Overlay = styled.div`
 
 const Text = styled.p`
     font-size: 24px;
+    margin-bottom: 30px;
 `
 
 
 const ExternalWrapper = styled.div`
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 50px 50px;
     flex-direction: column;
     z-index: 3;
     position: fixed;
@@ -72,7 +86,10 @@ const ExternalWrapper = styled.div`
 `
 
 const UserNameInput = styled.input`
-
+    font-size: 24px;
+    padding: 10px 15px;
+    margin-bottom: 30px;
+    outline: none;
 `
 
 

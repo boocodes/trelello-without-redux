@@ -15,29 +15,63 @@ function Application(props:Props){
         );
     const [cardDataArray, setCardDataArray] = useState<CardDataArrayType[]>(
         [
-            {id: '1', title: 'hello!', columnId: '1'}
-        ]
+            {id: '1', columnId: '1', title: 'Hello', description: 'None'}
+        ]   
     )
     const [commentDataArray, setCommentDataArray] = useState<CommentDataArrayType[]>(
         [
-            {id: '1', title: 'hello!', cardId: '1'},
-            {id: '1', title: 'nick!', cardId: '1'}
+            {id: '1', cardId: '1', author: 'Nick', title: 'Hello there!'}
         ]
     )
 
 
+    function editColumnTitle(columnId: string, newTitle: string){
+        columnDataArray.map((column:ColumnDataArrayType)=>{
+            if(column.id === columnId){
+                column.title = newTitle;
+            }
+        })
+        setColumnDataArray(columnDataArray.concat([]));
+        localStorage.setItem('columnDataArray', JSON.stringify(columnDataArray));
+    }
+
+    function editCardDescrption(cardId: string, newDescription: string){
+        cardDataArray.map((card:CardDataArrayType)=>{
+            if(card.id === cardId){
+                card.description = newDescription;
+            }
+        })
+        setCardDataArray(cardDataArray.concat([]));
+        localStorage.setItem('cardDataArray', JSON.stringify(cardDataArray));
+    }
+
+    function editCardTitleFunction(cardId: string, newTitle: string){
+        cardDataArray.map((card: CardDataArrayType)=>{
+            if(card.id === cardId){
+                card.title = newTitle;
+            }
+        })
+        setCardDataArray(cardDataArray.concat([]));
+        localStorage.setItem('cardDataArray', JSON.stringify(cardDataArray));
+    }
+
     function addCardFunction(columnId: string, title: string){
-        let newCard = {columnId: columnId, title: title, id: Math.random().toString()};
+        let newCard = {columnId: columnId, title: title, id: Math.random().toString(), description: 'Empty field'};
         cardDataArray.push(newCard);
         setCardDataArray(cardDataArray.concat([]));
         localStorage.setItem('cardDataArray', JSON.stringify(cardDataArray));
-        console.log(cardDataArray);
     }
     function addColumnFunction(title: string){
         let newColumn = {id: Math.random().toString(), title: title};
         columnDataArray.push(newColumn);
         setColumnDataArray(columnDataArray.concat([]));
         localStorage.setItem('columnDataArray', JSON.stringify(columnDataArray));
+    }
+    function addCommentFunction(title: string, cardId: string, author: string){
+        let newComment = {id: Math.random().toString(), cardId: cardId, title: title, author: author};
+        commentDataArray.push(newComment);
+        setCommentDataArray(commentDataArray.concat([]));
+        localStorage.setItem('commentDataArray', JSON.stringify(commentDataArray));
     }
     
 
@@ -48,13 +82,26 @@ function Application(props:Props){
        if(localStorage.getItem('columnDataArray') !== null){
         setColumnDataArray(JSON.parse(localStorage.getItem('columnDataArray') || ''))
        }
+       if(localStorage.getItem('commentDataArray') !== null){
+        setCommentDataArray(JSON.parse(localStorage.getItem('commentDataArray') || ''))
+       }
        
     }, [])
 
 
     return(
         <>
-            <ColumnList commentDataArray={commentDataArray} addColumnFunction={addColumnFunction} addCardFunction={addCardFunction} cardDataArray={cardDataArray} columnDataArray={columnDataArray}/>
+            <ColumnList 
+                editColumnTitle={editColumnTitle}
+                editDescription={editCardDescrption} 
+                addCommentFunction={addCommentFunction} 
+                editCardTitleFunction={editCardTitleFunction} 
+                commentDataArray={commentDataArray} 
+                addColumnFunction={addColumnFunction} 
+                addCardFunction={addCardFunction} 
+                cardDataArray={cardDataArray} 
+                columnDataArray={columnDataArray}
+            />
         </>
     )
 }
